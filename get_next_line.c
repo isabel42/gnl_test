@@ -13,6 +13,7 @@
 #include "get_next_line.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 
 char	*get_until_nl(char *s, int loopret)
 {
@@ -24,8 +25,6 @@ char	*get_until_nl(char *s, int loopret)
 	i = 0;
 	j = 0;
 	pos = 0;
-	if (get_size_until_nl(s, loopret) == 0)
-		return(NULL);
 	temp = malloc((get_size_until_nl(s, loopret) + 1) * sizeof(*temp));
 	if (!temp)
 		return (NULL);
@@ -68,9 +67,7 @@ char	*ft_get_line(char *line, int ret, char *buf, int fd)
 {
 	while (ft_totalloop(buf) == 0)
 	{
-printf("\n---%s---\n", line);
 		line = ft_strjoin(line, buf);
-printf("\n***%s***\n", line);
 		ret = read (fd, buf, BUFFER_SIZE);
 		if(ret < 0)
 		{
@@ -114,23 +111,25 @@ char	*get_next_line(int fd)
 	if (looprep < ft_totalloop(buf) - 1)
 	{
 		looprep++;
-		return (get_until_nl (buf, looprep));
+		temp = get_until_nl(buf, looprep);
+		if (ft_strlen(temp) == 0)
+		{
+			ft_free(temp);
+			return(NULL);
+		}
+		return (temp);
 	}
 	line = get_until_nl(buf, looprep + 1);
 	ret = read (fd, buf, BUFFER_SIZE);
-	if (ret <= 0 && line)
+	if (ret <= 0)
 	{
 		ft_free(line);
 		return (NULL);
 	}
-printf("\n1111%s111\n", line);
-printf("\n222%s222\n", buf);
 	line = ft_get_line(line, ret, buf, fd);
-printf("\n---\n");
 	temp = get_until_nl(buf, 0);
 	line = ft_strjoin(line, temp);
-	if(temp)
-	free(temp);
+	ft_free(temp);
 	looprep = 0;
 	return (line);
 }
@@ -147,7 +146,7 @@ int	main(void)
 		printf("Error\n");
 		return (1);
 	}
-	while(i < 12)
+	while(i < 6)
 	{
 			line = get_next_line(fd);
 			printf("New Line: %s",  line);

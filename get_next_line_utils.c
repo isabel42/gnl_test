@@ -61,9 +61,7 @@ void	ft_free(char *s)
 {
 	size_t	i;
 
-	i = 0;
-	if (!s)
-		s =  malloc(sizeof(*s));
+	i = 0;		
 	while (i < ft_strlen(s))
 	{
 		s[i] = '\0';
