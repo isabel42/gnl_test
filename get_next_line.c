@@ -68,12 +68,14 @@ char	*ft_get_line(char *line, int ret, char *buf, int fd)
 {
 	while (ft_totalloop(buf) == 0)
 	{
+printf("\n---%s---\n", line);
 		line = ft_strjoin(line, buf);
+printf("\n***%s***\n", line);
 		ret = read (fd, buf, BUFFER_SIZE);
-		if (ret < 0)
+		if(ret < 0)
 		{
-			ft_free(line);
-			return (NULL);
+			free(line);
+			return(NULL);
 		}
 		buf[ret] = '\0';
 	}
@@ -115,22 +117,24 @@ char	*get_next_line(int fd)
 		return (get_until_nl (buf, looprep));
 	}
 	line = get_until_nl(buf, looprep + 1);
-
 	ret = read (fd, buf, BUFFER_SIZE);
 	if (ret <= 0 && line)
 	{
 		ft_free(line);
 		return (NULL);
 	}
+printf("\n1111%s111\n", line);
+printf("\n222%s222\n", buf);
 	line = ft_get_line(line, ret, buf, fd);
+printf("\n---\n");
 	temp = get_until_nl(buf, 0);
 	line = ft_strjoin(line, temp);
 	if(temp)
-	ft_free(temp);
+	free(temp);
 	looprep = 0;
 	return (line);
 }
-/*
+
 int	main(void)
 {
 	int		fd;
@@ -155,4 +159,4 @@ int	main(void)
 		return (1);
 	}
 	return (0);
-}*/
+}
