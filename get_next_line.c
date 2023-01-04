@@ -25,7 +25,7 @@ char	*get_until_nl(char *s, int loopret)
 	i = 0;
 	j = 0;
 	pos = 0;
-	temp = malloc((get_size_until_nl(s, loopret) + 1) * sizeof(*temp));
+	temp = ft_calloc((ft_strlen(s) + 1), sizeof(*temp));
 	if (!temp)
 		return (NULL);
 	while (s[i] != '\0' && pos <= loopret)
@@ -43,36 +43,17 @@ char	*get_until_nl(char *s, int loopret)
 	return (temp);
 }
 
-int	get_size_until_nl(char *s, int loopret)
-{
-	int		i;
-	int		j;
-	int		pos;
-
-	i = 0;
-	j = 0;
-	pos = 0;
-	while (s[i] != '\0' && pos <= loopret)
-	{
-		if (pos == loopret)
-			j++;
-		if (s[i] == '\n')
-			pos++;
-		i++;
-	}
-	return (j);
-}
-
 char	*ft_get_line(char *line, int ret, char *buf, int fd)
 {
 	while (ft_totalloop(buf) == 0)
 	{
 		line = ft_strjoin(line, buf);
 		ret = read (fd, buf, BUFFER_SIZE);
-		if(ret < 0)
+		if (ret < 0)
 		{
+			buf[0] = '\0';
 			free(line);
-			return(NULL);
+			return (NULL);
 		}
 		buf[ret] = '\0';
 	}
@@ -115,7 +96,7 @@ char	*get_next_line(int fd)
 		if (ft_strlen(temp) == 0)
 		{
 			ft_free(temp);
-			return(NULL);
+			return (NULL);
 		}
 		return (temp);
 	}
@@ -123,6 +104,7 @@ char	*get_next_line(int fd)
 	ret = read (fd, buf, BUFFER_SIZE);
 	if (ret <= 0)
 	{
+		buf[0] = '\0';
 		ft_free(line);
 		return (NULL);
 	}
@@ -133,6 +115,7 @@ char	*get_next_line(int fd)
 	looprep = 0;
 	return (line);
 }
+/*
 
 int	main(void)
 {
@@ -158,4 +141,4 @@ int	main(void)
 		return (1);
 	}
 	return (0);
-}
+}*/
