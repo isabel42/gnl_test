@@ -53,6 +53,21 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (sol);
 }
 
+char	*ft_strchr(const char *s, int c)
+{
+	char	c1;
+	char	*s1;
+
+	c1 = (char)c;
+	s1 = (char *)s;
+	while (*s1 != '\0' && *s1 != c1)
+		s1++;
+	if (*s1 == c1)
+		return (s1 + 1);
+	else
+		return (NULL);
+}
+
 void	ft_free(char *s)
 {
 	size_t	i;

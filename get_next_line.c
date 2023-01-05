@@ -43,10 +43,18 @@ char	*get_until_nl(char *s, int loopret)
 	return (temp);
 }
 
-char	*ft_get_line(char *line, int ret, char *buf, int fd)
+char	*ft_get_line(char *line, char *buf, int fd)
 {
-	char	*temp;
+	int	ret;
 
+	ret = read (fd, buf, BUFFER_SIZE);
+	if (ret <= 0)
+	{
+		buf[0] = '\0';
+		ft_free(line);
+		return (NULL);
+	}
+	buf[ret] = '\0';
 	while (ft_totalloop(buf) == 0)
 	{
 		line = ft_strjoin(line, buf);
@@ -54,15 +62,11 @@ char	*ft_get_line(char *line, int ret, char *buf, int fd)
 		if (ret < 0)
 		{
 			buf[0] = '\0';
-			free(line);
+			ft_free(line);
 			return (NULL);
 		}
 		buf[ret] = '\0';
 	}
-	buf[ret] = '\0';
-	temp = get_until_nl(buf, 0);
-	line = ft_strjoin(line, temp);
-	ft_free(temp);
 	return (line);
 }
 
@@ -99,7 +103,6 @@ char	*ft_loopbuf(int looprep, char *buf)
 
 char	*get_next_line(int fd)
 {
-	int			ret;
 	char		*line;
 	char		*temp;
 	static char	buf[BUFFER_SIZE + 1];
@@ -114,14 +117,14 @@ char	*get_next_line(int fd)
 		return (temp);
 	}
 	line = get_until_nl(buf, looprep + 1);
-	ret = read (fd, buf, BUFFER_SIZE);
-	if (ret <= 0)
-	{
-		buf[0] = '\0';
-		ft_free(line);
+	if (!line)
 		return (NULL);
-	}
-	line = ft_get_line(line, ret, buf, fd);
+	line = ft_get_line(line, buf, fd);
+	if (!line)
+		return (NULL);
+	temp = get_until_nl(buf, 0);
+	line = ft_strjoin(line, temp);
+	ft_free(temp);
 	looprep = 0;
 	return (line);
 }

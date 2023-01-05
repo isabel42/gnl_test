@@ -20,9 +20,10 @@
 size_t	ft_strlen(char *s);
 char	*ft_strjoin(char *s1, char *s2);
 char	*get_until_nl(char *s, int loopret);
-char	*ft_get_line(char *line, int ret, char *buf, int fd);
+char	*ft_get_line(char *line, char *buf, int fd);
 int		ft_totalloop(char *buf);
 char	*get_next_line(int fd);
+char	*ft_strchr(const char *s, int c);
 void	ft_free(char *s);
 
 #endif
