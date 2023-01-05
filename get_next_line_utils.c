@@ -18,7 +18,9 @@ size_t	ft_strlen( char *s)
 
 	i = 0;
 	while (s[i])
+	{
 		i++;
+	}
 	return (i);
 }
 
@@ -32,7 +34,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
 	i = 0;
-	sol = ft_calloc((len_s1 + len_s2 + 1), sizeof(*s1));
+	sol = malloc((len_s1 + len_s2 + 1) * sizeof(*s1));
 	if (!sol)
 		return (NULL);
 	while (i < len_s1)
@@ -48,23 +50,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	}
 	ft_free(s1);
 	sol [i] = '\0';
-	return (sol);
-}
-
-char	*ft_calloc(size_t count, size_t size)
-{
-	char	*sol;
-	size_t	i;
-
-	i = 0;
-	sol = malloc(size * count);
-	if (sol == NULL)
-		return (NULL);
-	while (i < count)
-	{
-		sol[i] = '\0';
-		i++;
-	}
 	return (sol);
 }
 
