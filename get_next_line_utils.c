@@ -53,19 +53,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (sol);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_testret(char *line, int ret, char *buf, int limit)
 {
-	char	c1;
-	char	*s1;
-
-	c1 = (char)c;
-	s1 = (char *)s;
-	while (*s1 != '\0' && *s1 != c1)
-		s1++;
-	if (*s1 == c1)
-		return (s1 + 1);
-	else
+	if (ret < limit)
+	{
+		buf[0] = '\0';
+		ft_free(line);
 		return (NULL);
+	}
+	return (line);
 }
 
 void	ft_free(char *s)

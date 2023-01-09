@@ -24,6 +24,7 @@ char	*ft_get_line(char *line, char *buf, int fd);
 int		ft_totalloop(char *buf);
 char	*get_next_line(int fd);
 char	*ft_strchr(const char *s, int c);
+char	*ft_testret(char *line, int ret, char *buf, int limit);
 void	ft_free(char *s);
 
 #endif

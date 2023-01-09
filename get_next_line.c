@@ -48,23 +48,23 @@ char	*ft_get_line(char *line, char *buf, int fd)
 	int	ret;
 
 	ret = read (fd, buf, BUFFER_SIZE);
-	if (ret <= 0)
+	if (ret == 0)
 	{
 		buf[0] = '\0';
-		ft_free(line);
-		return (NULL);
+		if (line[0] != '\0')
+			return (line);
 	}
+	line = ft_testret(line, ret, buf, 1);
+	if (line == NULL)
+		return (NULL);
 	buf[ret] = '\0';
 	while (ft_totalloop(buf) == 0)
 	{
 		line = ft_strjoin(line, buf);
 		ret = read (fd, buf, BUFFER_SIZE);
-		if (ret < 0)
-		{
-			buf[0] = '\0';
-			ft_free(line);
+		line = ft_testret(line, ret, buf, 0);
+		if (line == NULL)
 			return (NULL);
-		}
 		buf[ret] = '\0';
 	}
 	return (line);
